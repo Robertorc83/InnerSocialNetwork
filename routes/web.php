@@ -31,3 +31,4 @@ Route::post('/login', [LoginController::class, 'store']);
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts');
 Route::post('/posts', [PostController::class, 'create']);
+

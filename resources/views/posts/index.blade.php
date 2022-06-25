@@ -25,13 +25,15 @@
 
             @if ($posts->count())
                 @foreach ($posts as $post)
-                    <x-post :post="$post" />
+                    <div>
+                        <a href="">{{$post->user->name}}</a><span>{{$post->created_at->diffForHumans()}}</span>
+                        <p>{{$post->body}}</p>
+                    </div>
                 @endforeach
-
-                {{ $posts->links() }}
             @else
                 <p>There are no posts</p>
             @endif
+            {{$posts->links()}}
         </div>
     </div>
 @endsection
