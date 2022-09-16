@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex justify-center">
-        <div class="w-8/12 bg-white p-6 rounded-lg">
+        <div class="w-8/12 bg-white p-6 rounded-lg mt-4">
             @auth
                 <form action="{{ route('posts') }}" method="post" class="mb-4">
                     @csrf
@@ -26,14 +26,34 @@
             @if ($posts->count())
                 @foreach ($posts as $post)
                     <div>
-                        <a href="">{{$post->user->name}}</a><span>{{$post->created_at->diffForHumans()}}</span>
-                        <p>{{$post->body}}</p>
+                        <a href="" class="font-bold">{{$post->user->name}}</a><span class=" text-gray-400 ml-2">{{$post->created_at->diffForHumans()}}</span>
+                        <p class="my-2">{{$post->body}}</p>
+                    </div>
+                    <div>
+                        @auth
+                            <form action="{{route('posts.likes', $post->id)}}"  method="POST" class="mr-1">
+                                @csrf
+                                <button type="submit" class="text-blue-500">like</button>
+                            </form>
+                            <form action="{{route('posts.likes', $post->id)}}" method="POST" class="mr-1>
+                                @csrf
+                                <button type="submit" class="text-blue-500">Unlike</button>
+                            </form>
+                        @endauth
+                        <span class="my-2">{{$post->likes->count()}}{{Str::plural('like', $post->likes->count())}}</span>
                     </div>
                 @endforeach
             @else
                 <p>There are no posts</p>
             @endif
-            {{$posts->links()}}
+
+            @if (session()->has('status'))
+                <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
+                    {{ session()->get('status') }}
+                </div>
+            @endif
+
+            {{ $posts->links() }}
         </div>
     </div>
 @endsection
